@@ -31,9 +31,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+1/sec"
-        android:id="@+id/autoclick"
+        android:text="+1/sec cost :10"
+        android:id="@+id/autobutton"
         android:layout_below="@+id/click"
+        android:onClick="AutoBuy"
         android:layout_centerHorizontal="true" />
 
     <TextView

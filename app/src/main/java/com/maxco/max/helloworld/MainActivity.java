@@ -10,27 +10,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.os.AsyncTask;
+
 public class MainActivity extends AppCompatActivity {
     static TextView t;
+    static Button autoclick;
+    public static boolean threadEnabled = false;
 
-    public static int points = 0;
+
+
+    public static double points = 0;
     //points = 0;
     public static int autoPoints = 0;
-   //autoPoints = 0;
+    //autoPoints = 0;
+    public static double price = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        t = (TextView)findViewById(R.id.t);
-
-        final Button autoclick = (Button) findViewById(R.id.autoclick);
-        autoclick.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View increaseAuto) {
-                // Perform action on click
-            }
-        });
+        t = (TextView) findViewById(R.id.t);
+        autoclick = (Button) findViewById(R.id.autobutton);
 
 
     }
@@ -57,13 +59,51 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onclick (View increase){
+    public void onclick(View increase) {
         points++;
-        String p =Integer.toString(points);
+        String p = Double.toString(points);
         t.setText("Clicks : " + p);
     }
 
+    public void AutoBuy(View view) {
+        if (points >= price) {
+            points = points - price;
+            autoPoints++;
+            price = price * 1.1;
+            autoclick.setText("+1/SEC COST:" + Double.toString(price));
+            String p = Double.toString(points);
+            t.setText("Clicks : " + p);
+        }
+        if (threadEnabled == false) {
+            tick.start();
+            threadEnabled = true;
+        }
+    }
+
+    Thread tick = new Thread() {
+        @Override
+        public void run() {
+            while (true) {
+                points = points + autoPoints;
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String p = Double.toString(points);
+                        t.setText("Clicks : " + p);
+                    }
+                });
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
 
+        }
 
+        ;
+
+    };
 }
