@@ -25,13 +25,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         t = (TextView)findViewById(R.id.t);
 
-        final Button click = (Button) findViewById(R.id.click);
-        click.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View increase) {
-                // Perform action on click
-            }
-        });
-
         final Button autoclick = (Button) findViewById(R.id.autoclick);
         autoclick.setOnClickListener(new View.OnClickListener() {
             public void onClick(View increaseAuto) {
